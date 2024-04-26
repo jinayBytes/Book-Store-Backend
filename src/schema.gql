@@ -1,0 +1,202 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  name: String!
+  email: String!
+  password: String!
+  favBooks: String!
+  roles: [String!]!
+}
+
+type CreateUserResponseDto {
+  status: Boolean!
+  statusCode: Float!
+  message: String!
+}
+
+type LoginResponseDto {
+  status: Boolean!
+  statusCode: Float!
+  message: String!
+  data: User
+  token: String
+}
+
+type findAllUsersResponseDto {
+  status: Boolean!
+  statusCode: Float!
+  message: String!
+  data: [User!]
+}
+
+type Author {
+  name: String!
+  email: String!
+  dateOfBirth: DateTime!
+  biography: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PriceList {
+  mfgPrice: Float
+  wlsPrice: Float
+  rtlPrice: Float
+}
+
+type Book {
+  _id: ID!
+  title: String!
+  author: Author!
+  genre: String!
+  publicationDate: DateTime!
+  isbn: String!
+  description: String!
+  priceDetails: PriceList!
+  quantity: Float!
+}
+
+type order_Details {
+  book: String!
+  quantity: Float!
+}
+
+type Sell {
+  _id: ID!
+  description: String!
+  user: User!
+  price: Float!
+  totalQuantity: Float!
+  sellType: String!
+  order_details: [order_Details!]!
+}
+
+type Query {
+  FindAllUsers: findAllUsersResponseDto!
+  findOneUser(email: String!): LoginResponseDto!
+  fetchAllBooks: [Book!]!
+  book(id: Int!): Book!
+  FetchAllAuthor: [Author!]!
+  author(id: Int!): Author!
+  sell(id: Int!): Sell!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): CreateUserResponseDto!
+  loginUser(loginUserInput: LoginUserDto!): LoginResponseDto!
+  UpdateReader(updateReaderInput: UpdateReaderInput!): CreateUserResponseDto!
+  DeleteReader(email: String!): CreateUserResponseDto!
+  createBook(createBookInput: CreateBookInput!): Book!
+  updateBook(updateBookInput: UpdateBookInput!): Book!
+  removeBook(id: Int!): Book!
+  AuthorCreate(createAuthorInput: CreateAuthorInput!): CreateUserResponseDto!
+  updateAuthor(updateAuthorInput: UpdateAuthorInput!): Author!
+  removeAuthor(id: Int!): Author!
+  InsertSell(createSellInput: CreateSellInput!): Sell!
+  updateSell(updateSellInput: UpdateSellInput!): Sell!
+  removeSell(id: Int!): Sell!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+  favBooks: String!
+  roles: [Role!]!
+}
+
+enum Role {
+  ADMIN
+  READER
+  VISITOR
+}
+
+input LoginUserDto {
+  email: String!
+  password: String!
+}
+
+input UpdateReaderInput {
+  email: String!
+  name: String!
+  favBooks: String!
+  roles: [String!]!
+}
+
+input CreateBookInput {
+  title: String!
+  author: String!
+
+  """The genre of the book. Allowed values: FICTION, NON_FICTION"""
+  genre: String!
+  publicationDate: DateTime!
+  isbn: String!
+  description: String!
+  priceDetails: PriceListt!
+  quantity: Float!
+}
+
+input PriceListt {
+  mfgPrice: Float
+  wlsPrice: Float
+  rtlPrice: Float
+}
+
+input UpdateBookInput {
+  title: String
+  author: String
+
+  """The genre of the book. Allowed values: FICTION, NON_FICTION"""
+  genre: String
+  publicationDate: DateTime
+  isbn: String
+  description: String
+  priceDetails: PriceListt
+  quantity: Float
+  id: Int!
+}
+
+input CreateAuthorInput {
+  name: String!
+  email: String!
+  dateOfBirth: DateTime!
+  biography: String!
+}
+
+input UpdateAuthorInput {
+  name: String
+  email: String
+  dateOfBirth: DateTime
+  biography: String
+  id: Int!
+}
+
+input CreateSellInput {
+  description: String!
+  user: String!
+  sellType: SellType!
+  order_details: [order_Detail!]!
+}
+
+enum SellType {
+  WHOLSESALE
+  RETAIL
+}
+
+input order_Detail {
+  book: String!
+  quantity: Float!
+}
+
+input UpdateSellInput {
+  description: String
+  user: String
+  sellType: SellType
+  order_details: [order_Detail!]
+  id: Int!
+}
